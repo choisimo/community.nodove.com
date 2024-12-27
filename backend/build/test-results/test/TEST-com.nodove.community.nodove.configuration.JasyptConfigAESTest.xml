@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.nodove.community.nodove.configuration.JasyptConfigAESTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-27T22:47:27" hostname="nodove-dev" time="0.066">
+  <properties/>
+  <testcase name="testEncrypt()" classname="com.nodove.community.nodove.configuration.JasyptConfigAESTest" time="0.066"/>
+  <system-out><![CDATA[Encrypted URL: 
+LCgMlkuOu2WBVRcF/JWi76BJkiIsRjF029Tcp8P++YYNzDAuDwbPhRDRbJJn33CuTR1+eezS5aKlW81B8UmcO3sVti2o+o+ELoBzt2WvQuBgYubmmbqu4k8kUSNsD0Hv
+Encrypted Username: 
+/yC5o27fFuP/2LvRtW1+Zu1qwh4nH9KpvIQsy1Ctg6nAww+loXyWOSasy83r+50L
+Encrypted Password: 
+1scDgD6CVNGkAqFprsbWVmVdR8nPIzPRxbGPpfQhbdLcNZSxz/uui3ZVDWe5Nlwe
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
