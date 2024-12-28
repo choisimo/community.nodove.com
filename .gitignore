@@ -1,6 +1,6 @@
 application-security.properties
 JasyptConfigAESTest
-com.nodove.community.nodove.configuration.JasyptConfigAESTest
+com.nodove.community.nodove.configuration.JasyptConfigAESTest*
 build/
 .gradle/
 .idea/
