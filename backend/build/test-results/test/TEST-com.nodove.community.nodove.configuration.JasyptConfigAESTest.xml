@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.nodove.community.nodove.configuration.JasyptConfigAESTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-27T22:47:27" hostname="nodove-dev" time="0.066">
+<testsuite name="com.nodove.community.nodove.configuration.JasyptConfigAESTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-12-28T01:57:19" hostname="nodove-dev" time="0.414">
   <properties/>
-  <testcase name="testEncrypt()" classname="com.nodove.community.nodove.configuration.JasyptConfigAESTest" time="0.066"/>
-  <system-out><![CDATA[Encrypted URL: 
-LCgMlkuOu2WBVRcF/JWi76BJkiIsRjF029Tcp8P++YYNzDAuDwbPhRDRbJJn33CuTR1+eezS5aKlW81B8UmcO3sVti2o+o+ELoBzt2WvQuBgYubmmbqu4k8kUSNsD0Hv
-Encrypted Username: 
-/yC5o27fFuP/2LvRtW1+Zu1qwh4nH9KpvIQsy1Ctg6nAww+loXyWOSasy83r+50L
-Encrypted Password: 
-1scDgD6CVNGkAqFprsbWVmVdR8nPIzPRxbGPpfQhbdLcNZSxz/uui3ZVDWe5Nlwe
+  <testcase name="StringEncryptor()" classname="com.nodove.community.nodove.configuration.JasyptConfigAESTest" time="0.414"/>
+  <system-out><![CDATA[01:57:17.463 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.nodove.community.nodove.configuration.JasyptConfigAESTest]: JasyptConfigAESTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:57:17.522 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.nodove.community.nodove.Application for test class com.nodove.community.nodove.configuration.JasyptConfigAESTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.7)
+
+2024-12-28T01:57:17.707Z  INFO 190354 --- [    Test worker] c.n.c.n.c.JasyptConfigAESTest            : Starting JasyptConfigAESTest using Java 17.0.12 with PID 190354 (started by nodove in /workspace/community.nodove.com/backend)
+2024-12-28T01:57:17.708Z  INFO 190354 --- [    Test worker] c.n.c.n.c.JasyptConfigAESTest            : No active profile set, falling back to 1 default profile: "default"
+2024-12-28T01:57:18.122Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-28T01:57:18.124Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2024-12-28T01:57:18.133Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 Elasticsearch repository interfaces.
+2024-12-28T01:57:18.137Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-28T01:57:18.138Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2024-12-28T01:57:18.139Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2024-12-28T01:57:18.145Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-28T01:57:18.145Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-28T01:57:18.148Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2024-12-28T01:57:18.156Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-12-28T01:57:18.157Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-12-28T01:57:18.162Z  INFO 190354 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 Redis repository interfaces.
+2024-12-28T01:57:18.306Z  INFO 190354 --- [    Test worker] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2024-12-28T01:57:18.307Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource configurationProperties [class org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource
+2024-12-28T01:57:18.308Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource test [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource Inlined Test Properties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Skipping PropertySource servletConfigInitParams [class org.springframework.core.env.PropertySource$StubPropertySource
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletContextInitParams [org.springframework.web.context.support.ServletContextPropertySource] to EncryptableEnumerablePropertySourceWrapper
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2024-12-28T01:57:18.309Z  INFO 190354 --- [    Test worker] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource Config resource 'class path resource [application.properties]' via location 'optional:classpath:/' [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2024-12-28T01:57:18.417Z  INFO 190354 --- [    Test worker] c.u.j.filter.DefaultLazyPropertyFilter   : Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2024-12-28T01:57:18.423Z  INFO 190354 --- [    Test worker] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2024-12-28T01:57:18.425Z  INFO 190354 --- [    Test worker] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2024-12-28T01:57:18.486Z  INFO 190354 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-28T01:57:18.548Z  INFO 190354 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@7757025d
+2024-12-28T01:57:18.549Z  INFO 190354 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-28T01:57:18.573Z  INFO 190354 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-28T01:57:18.597Z  INFO 190354 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2024-12-28T01:57:18.614Z  INFO 190354 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-12-28T01:57:18.789Z  INFO 190354 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-12-28T01:57:18.965Z  INFO 190354 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-12-28T01:57:18.967Z  INFO 190354 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-28T01:57:19.116Z  WARN 190354 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-28T01:57:19.144Z  INFO 190354 --- [    Test worker] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2024-12-28T01:57:19.906Z  INFO 190354 --- [    Test worker] c.n.c.n.c.JasyptConfigAESTest            : Started JasyptConfigAESTest in 2.306 seconds (process running for 2.852)
+value_pass : UBD0T4UBHdjYxGHgmy8HdYfkrR9avJKLELqm2BNIZ5G7iNmD3iiuPzUlhL9ostUmNoFJC0wCBteS8zS9uo7ZV70jGqezL1GWROUGRSB6at8zMQJ2vyRkOCHOeo9CbHGnuSBWJNVyjuqLBgjVkq/WYGYVVcSzhmRKKU+YagNGJqL4EX8KQy7Dcn7ArfSC1YGWF65oLYk8NXOUNPcAKcwcjgVH20uUuR6YAz34jzPWgjMb+J2fDizVQU0erxduvWjnV2wdJTUPeoykc2EtuxeDFLM+/9yqFxt63F6B36+x1xc4ZouLffIYu48Jhwqrt8r04yfOahE5PRMmWWaJbIjD0g==
+value_url : jdbc:mariadb://suhak.nodove.com:13000/community?serverTimezone=UTC+9&useSSL=false&useUnicode=true&characterEncoding=utf8
+value_username : nodove
+value_password : dover1234!
+jasyptEncryptor(value_url) : k3gAEqPcI4gVthSY1odYWl4e0Y5pkcYoiwFWQeNOQQ3EKWNSJFDIcc0zxxMAw/aV+t+Dg0IxNL7LI4HKb2Wni7wVOZArWd9DpGM1Rb2G0EHGdZqqAbYrMwwSJ7Ml3kfDjaoYry3KxlVzllZhNjc5TA6eZT+CZ3PTXVJ1jqNGpNfzhA+Dbu7hkf2CmK88SycCFFFfiFL0m30XqmlqPmfmmA==
+jasyptEncryptor(value_username) : D7+aYzEEi6b7vpOy5XS5mP9LVfieoNGg6bZqNVedWKGJNq8eqzqu/Z7f0gu8JAln
+jasyptEncryptor(value_password) : T0u1nFxJLidJHSRmm0bRjZPZldE35Km0CPP0D5pFkfvVY91KGNQZ1RvpO4B+wLGa
+jasyptEncryptor(value_mongodb_uri) : AkypNr3QAPIz+9muMFrorvjdF74C0wNGD5T+gRX2M9n2xDK8JJ2q4rSMFxHmr8tUlmiGYEqo/dWhxqhPkGhs8WmMsjpUrtKBVIP1oxd3ZkV3NcBZ/T1c/wLilq1w8pgJ
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
