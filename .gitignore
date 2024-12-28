@@ -4,7 +4,7 @@ com.nodove.community.nodove.configuration.JasyptConfigAESTest*
 test/java/com/nodove/community/nodove/configuration/JasyptConfigAESTest.java
 test/java/**/*Jasypt*.java
 test/java/**/*Jasypt*.class
-
+test/resources/**
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,git,java,maven,eclipse,intellij,gradle,netbeans,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,git,java,maven,eclipse,intellij,gradle,netbeans,visualstudiocode
