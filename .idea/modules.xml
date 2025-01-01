@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/community.nodove.com.iml" filepath="$PROJECT_DIR$/.idea/community.nodove.com.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/community.nodove.main.iml" filepath="$PROJECT_DIR$/.idea/modules/community.nodove.main.iml" />
     </modules>
   </component>
 </project>

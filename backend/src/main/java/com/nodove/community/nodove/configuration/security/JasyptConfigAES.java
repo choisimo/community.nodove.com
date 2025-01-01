@@ -1,4 +1,4 @@
-package com.nodove.community.nodove.configuration;
+package com.nodove.community.nodove.configuration.security;
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.jasypt.encryption.StringEncryptor;
