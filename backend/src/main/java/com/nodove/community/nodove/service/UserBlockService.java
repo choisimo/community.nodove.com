@@ -4,6 +4,7 @@ import com.nodove.community.nodove.domain.users.User;
 import com.nodove.community.nodove.domain.users.UserBlock;
 import com.nodove.community.nodove.dto.user.UserBlockDto;
 import com.nodove.community.nodove.repository.users.UserBlockRepository;
+import com.nodove.community.nodove.repository.users.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class UserBlockService {
 
     private final RedisService redisService;
-    private final UserService userService;
     private final UserBlockRepository userBlockRepository;
+    private final UserRepository userRepository;
 
     public void setBlockCaching(UserBlockDto userBlockDto) {
         redisService.setBlockCaching(userBlockDto);
@@ -31,7 +32,7 @@ public class UserBlockService {
         }
 
         // 2. 데이터베이스 조회
-        User user = userService.findByUserId(userId);
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("User not found for userId: " + userId));
         if (user == null) {
             throw new RuntimeException("User not found for userId: " + userId);
         }

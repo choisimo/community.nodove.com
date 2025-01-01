@@ -2,6 +2,8 @@ package com.nodove.community.nodove.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nodove.community.nodove.configuration.security.JWT.JwtUtility;
+import com.nodove.community.nodove.domain.security.Token;
+import com.nodove.community.nodove.dto.response.ApiResponseDto;
 import com.nodove.community.nodove.service.RedisService;
 import com.nodove.community.nodove.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -9,7 +11,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
 
 @Slf4j
 public class AuthorizationFilter extends OncePerRequestFilter {
@@ -29,7 +35,117 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("AuthorizationFilter");
+        try {
+            log.info("AuthorizationFilter");
+
+            String authorizationHeader = request.getHeader("Authorization");
+
+            if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+                log.error("Authorization header is missing or invalid");
+                handleErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Authorization header is missing or invalid");
+                return;
+            }
+
+            String token = authorizationHeader.substring(7);
+            String refreshToken;
+
+            if (jwtUtility.isTokenExpired(token, 0)) {
+                refreshToken = checkRefreshTokenForReissue(request, response, token);
+                if (refreshToken == null) return;
+                if(jwtUtility.isTokenExpired(refreshToken, 1)) {
+                    log.error("Refresh Token is expired");
+                    handleErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Refresh Token is expired");
+                    return;
+                }
+                token = reissueToken(refreshToken);
+                response.setStatus(HttpServletResponse.SC_ACCEPTED);
+                response.getWriter().write(objectMapper.writeValueAsString(
+                        ApiResponseDto.builder()
+                                .status("success")
+                                .message("Access Token reissued successfully")
+                                .code("TOKEN_REISSUED")
+                                .build()
+                ));
+                response.setHeader(Token.ACCESS_TOKEN_HEADER.getHeaderName(), Token.ACCESS_TOKEN_HEADER.createHeaderPrefix(token));
+                response.getWriter().write(ApiResponseDto.builder()
+                        .code("201")
+                        .message("Access Token reissued successfully")
+                        .build().toString());
+            }
+
+            Authentication authentication = jwtUtility.getAuthentication(token);
+            if (authentication == null) {
+                log.error("Unauthorized: Token is invalid");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write(ApiResponseDto.builder()
+                        .status("error")
+                        .message("Unauthorized")
+                        .code("UNAUTHORIZED")
+                        .build().toString());
+                return;
+            }
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (Exception e) {
+            log.error("Error occurred in AuthorizationFilter: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(ApiResponseDto.builder()
+                    .status("error")
+                    .message("Internal Server Error")
+                    .code("INTERNAL_SERVER_ERROR")
+                    .build().toString());
+        }
         filterChain.doFilter(request, response);
     }
+
+    private String checkRefreshTokenForReissue (HttpServletRequest request, HttpServletResponse response, String
+            token) throws IOException {
+        String refreshToken = jwtUtility.getRefreshToken(request);
+        if (refreshToken == null || jwtUtility.isTokenExpired(refreshToken, 1)) {
+            log.error("Refresh Token is invalid or expired.");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(objectMapper.writeValueAsString(
+                    ApiResponseDto.builder()
+                            .status("error")
+                            .message("Refresh Token is invalid or expired. Please log in again.")
+                            .code("TOKEN_EXPIRED")
+                            .build().toString()));
+        }
+        return refreshToken;
+    }
+
+    private String reissueToken (String refreshToken){
+        String userId = jwtUtility.parseToken(refreshToken, 1).get("userId").toString();
+        return jwtUtility.generateReissuedAccessToken(userId);
+    }
+
+    private void handleErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        if (!response.isCommitted()) {
+            response.setStatus(status);
+            response.setContentType("application/json");
+            response.getWriter().write(objectMapper.writeValueAsString(
+                    ApiResponseDto.builder()
+                            .status("error")
+                            .message(message)
+                            .code(String.valueOf(status))
+                            .build()
+            ));
+        }
+    }
+
+    private void handleSuccessResponse(HttpServletResponse response, int status, String message, String token) throws IOException {
+        if (!response.isCommitted()) {
+            response.setStatus(status);
+            response.setContentType("application/json");
+            response.setHeader(Token.ACCESS_TOKEN_HEADER.getHeaderName(), Token.ACCESS_TOKEN_HEADER.createHeaderPrefix(token));
+            response.getWriter().write(objectMapper.writeValueAsString(
+                    ApiResponseDto.builder()
+                            .status("success")
+                            .message(message)
+                            .code("TOKEN_REISSUED")
+                            .build()
+            ));
+        }
+    }
 }
+

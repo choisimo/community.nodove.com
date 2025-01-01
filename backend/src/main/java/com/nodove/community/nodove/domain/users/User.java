@@ -25,9 +25,8 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Builder.Default
     @Column(name = "user_id", nullable = false, unique = true)
-    private String userId = String.valueOf(System.currentTimeMillis());
+    private String userId;
 
     @Email
     @Column(name = "email", nullable = false)
