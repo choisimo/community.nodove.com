@@ -35,6 +35,7 @@ public class UserController {
     @PostMapping("/auth/register")
     public ResponseEntity<?> registerUser(
             @RequestBody(required = true) UserRegisterDto userRegisterDto) {
+        log.info("회원 가입을 진행합니다. userRegisterDto = {}", userRegisterDto.getEmail());
         return this.userService.registerUser(userRegisterDto);
     }
 

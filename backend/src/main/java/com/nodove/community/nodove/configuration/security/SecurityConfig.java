@@ -24,6 +24,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Slf4j
 @Configuration
 @EnableWebSecurity
@@ -37,6 +40,13 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CorsConfigurationSource corsConfigurationSource;
+
+    private final List<String> permitList = Arrays.asList(
+            "/auth/login",
+            "/auth/register",
+            "/swagger-io.html"
+    );
+
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
@@ -54,8 +64,10 @@ public class SecurityConfig {
         http.addFilterAt(new AuthenticationFilter(authenticationManager(), jwtUtility, ObjectMapper(), redisService, userService), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
-                    authorize.requestMatchers("/api/private").hasAnyAuthority("ADMIN", "ROLE_ADMIN");
+            authorize.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
+            authorize.requestMatchers("/auth/login", "/auth/register", "/swagger-io.html").permitAll();  // 인증 없이 접근 가능
+            authorize.requestMatchers(permitList.toArray(new String[0])).permitAll();
+            authorize.requestMatchers("/api/private").hasAnyAuthority("ADMIN", "ROLE_ADMIN");
             authorize.requestMatchers("/api/protected").hasAnyAuthority("USER", "ROLE_USER", "ADMIN", "ROLE_ADMIN");
             authorize.requestMatchers("/api/public").permitAll();
             authorize.anyRequest().permitAll();

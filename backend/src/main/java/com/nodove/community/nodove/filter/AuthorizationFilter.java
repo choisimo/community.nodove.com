@@ -42,7 +42,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
 
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
                 log.error("Authorization header is missing or invalid");
-                handleErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Authorization header is missing or invalid");
+                filterChain.doFilter(request, response);
                 return;
             }
 
@@ -52,69 +52,53 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             if (jwtUtility.isTokenExpired(token, 0)) {
                 refreshToken = checkRefreshTokenForReissue(request, response, token);
                 if (refreshToken == null) return;
-                if(jwtUtility.isTokenExpired(refreshToken, 1)) {
+
+                if (jwtUtility.isTokenExpired(refreshToken, 1)) {
                     log.error("Refresh Token is expired");
                     handleErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Refresh Token is expired");
                     return;
                 }
+
                 token = reissueToken(refreshToken);
                 response.setStatus(HttpServletResponse.SC_ACCEPTED);
-                response.getWriter().write(objectMapper.writeValueAsString(
-                        ApiResponseDto.builder()
-                                .status("success")
-                                .message("Access Token reissued successfully")
-                                .code("TOKEN_REISSUED")
-                                .build()
-                ));
-                response.setHeader(Token.ACCESS_TOKEN_HEADER.getHeaderName(), Token.ACCESS_TOKEN_HEADER.createHeaderPrefix(token));
-                response.getWriter().write(ApiResponseDto.builder()
-                        .code("201")
-                        .message("Access Token reissued successfully")
-                        .build().toString());
+                handleSuccessResponse(response, HttpServletResponse.SC_ACCEPTED, "Access Token reissued successfully", token);
             }
 
             Authentication authentication = jwtUtility.getAuthentication(token);
             if (authentication == null) {
                 log.error("Unauthorized: Token is invalid");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write(ApiResponseDto.builder()
-                        .status("error")
-                        .message("Unauthorized")
-                        .code("UNAUTHORIZED")
-                        .build().toString());
+                handleErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
                 return;
             }
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
             log.error("Error occurred in AuthorizationFilter: {}", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write(ApiResponseDto.builder()
-                    .status("error")
-                    .message("Internal Server Error")
-                    .code("INTERNAL_SERVER_ERROR")
-                    .build().toString());
+            handleErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error");
         }
+
         filterChain.doFilter(request, response);
     }
 
-    private String checkRefreshTokenForReissue (HttpServletRequest request, HttpServletResponse response, String
-            token) throws IOException {
+    private String checkRefreshTokenForReissue(HttpServletRequest request, HttpServletResponse response, String token) throws IOException {
         String refreshToken = jwtUtility.getRefreshToken(request);
         if (refreshToken == null || jwtUtility.isTokenExpired(refreshToken, 1)) {
             log.error("Refresh Token is invalid or expired.");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(objectMapper.writeValueAsString(
-                    ApiResponseDto.builder()
-                            .status("error")
-                            .message("Refresh Token is invalid or expired. Please log in again.")
-                            .code("TOKEN_EXPIRED")
-                            .build().toString()));
+            if (!response.isCommitted()) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write(objectMapper.writeValueAsString(
+                        ApiResponseDto.builder()
+                                .status("error")
+                                .message("Refresh Token is invalid or expired. Please log in again.")
+                                .code("TOKEN_EXPIRED")
+                                .build()
+                ));
+            }
         }
         return refreshToken;
     }
 
-    private String reissueToken (String refreshToken){
+    private String reissueToken(String refreshToken) {
         String userId = jwtUtility.parseToken(refreshToken, 1).get("userId").toString();
         return jwtUtility.generateReissuedAccessToken(userId);
     }
