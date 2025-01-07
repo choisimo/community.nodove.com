@@ -1,10 +1,10 @@
 package com.nodove.community.nodove.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nodove.community.nodove.configuration.security.JWT.JwtUtility;
+import com.nodove.community.nodove.configuration.security.JWT.JwtUtilityManager;
 import com.nodove.community.nodove.domain.security.Token;
 import com.nodove.community.nodove.dto.response.ApiResponseDto;
-import com.nodove.community.nodove.service.RedisService;
+import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,13 +20,13 @@ import java.io.IOException;
 @Slf4j
 public class AuthorizationFilter extends OncePerRequestFilter {
 
-    private final JwtUtility jwtUtility;
+    private final JwtUtilityManager jwtUtility;
     private final ObjectMapper objectMapper;
-    private final RedisService redisService;
+    private final RedisServiceManager redisService;
     private final UserService userService;
 
 
-    public AuthorizationFilter(JwtUtility jwtUtility, ObjectMapper objectMapper, RedisService redisService, UserService userService) {
+    public AuthorizationFilter(JwtUtilityManager jwtUtility, ObjectMapper objectMapper, RedisServiceManager redisService, UserService userService) {
         this.jwtUtility = jwtUtility;
         this.objectMapper = objectMapper;
         this.redisService = redisService;

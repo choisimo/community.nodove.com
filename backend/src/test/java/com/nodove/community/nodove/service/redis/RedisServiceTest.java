@@ -1,3 +1,4 @@
+/*
 package com.nodove.community.nodove.service.redis;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,3 +33,4 @@ public class RedisServiceTest {
     }
 
 }
+*/

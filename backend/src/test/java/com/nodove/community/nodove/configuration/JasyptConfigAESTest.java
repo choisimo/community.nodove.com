@@ -11,47 +11,62 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 public class JasyptConfigAESTest {
+    /**
+     * Jasypt password
+     * */
+    @Value("${Jasypt.config.password}") private String value_pass;
 
-    @Value("${spring.datasource.url}") String mariadb_url;
-    @Value("${spring.datasource.username}") String mariadb_username;
-    @Value("${spring.datasource.password}") String mariadb_password;
-    @Value("${spring.data.mongodb.uri}") String mongodb_uri;
+    /**
+     * redis properties
+     */
+    @Value("${spring.data.redis.host}") private String host;
+    @Value("${spring.data.redis.port}") private int port;
+    @Value("${spring.data.redis.password}") private String password;
 
-    @Value("${mailsender.host}") String smtp_host;
-    @Value("${mailsender.port}") String smtp_port;
-    @Value("${mailsender.username}") String smtp_username;
-    @Value("${mailsender.password}") String smtp_password;
-
-    @Value("${Jasypt.config.password}") String value_pass;
+    /**
+     * mail properties
+     * */
+    @Value("${spring.mail.host}") private String mail_host;
+    @Value("${spring.mail.port}") private int mail_port;
+    @Value("${spring.mail.username}") private String mail_username;
+    @Value("${spring.mail.password}") private String mail_password;
 
     @BeforeEach
-    void setUp() {
-        System.out.println("mariadb_url : " + mariadb_url);
-        System.out.println("mariadb_username : " + mariadb_username);
-        System.out.println("mariadb_password : " + mariadb_password);
-        System.out.println("mongodb_uri : " + mongodb_uri);
-        System.out.println("smtp_host : " + smtp_host);
-        System.out.println("smtp_port : " + smtp_port);
-        System.out.println("smtp_username : " + smtp_username);
-        System.out.println("smtp_password : " + smtp_password);
+    void print_origin_values() {
+        System.out.println("host: " + host);
+        System.out.println("port: " + port);
+        System.out.println("password: " + password);
+
+        System.out.println("mail_host: " + mail_host);
+        System.out.println("mail_port: " + mail_port);
+        System.out.println("mail_username: " + mail_username);
+        System.out.println("mail_password: " + mail_password);
     }
 
     @Test
     void StringEncryptor() {
-        System.out.println("mariadb_url : " + jasyptEncryptor(mariadb_url));
-        System.out.println("mariadb_username : " + jasyptEncryptor(mariadb_username));
-        System.out.println("mariadb_password : " + jasyptEncryptor(mariadb_password));
-        System.out.println("mongodb_uri : " + jasyptEncryptor(mongodb_uri));
-        System.out.println("smtp_host : " + jasyptEncryptor(smtp_host));
-        System.out.println("smtp_port : " + jasyptEncryptor(smtp_port));
-        System.out.println("smtp_username : " + jasyptEncryptor(smtp_username));
-        System.out.println("smtp_password : " + jasyptEncryptor(smtp_password));
+        String encrypted_host = jasyptEncryptor(host);
+        String encrypted_port = jasyptEncryptor(String.valueOf(port));
+        String encrypted_password = jasyptEncryptor(password);
+        System.out.println("encrypted_host: " + encrypted_host);
+        System.out.println("encrypted_port: " + encrypted_port);
+        System.out.println("encrypted_password: " + encrypted_password);
+
+        String encrypted_mail_host = jasyptEncryptor(mail_host);
+        String encrypted_mail_port = jasyptEncryptor(String.valueOf(mail_port));
+        String encrypted_mail_username = jasyptEncryptor(mail_username);
+        String encrypted_mail_password = jasyptEncryptor(mail_password);
+
+        System.out.println("encrypted_mail_host: " + encrypted_mail_host);
+        System.out.println("encrypted_mail_port: " + encrypted_mail_port);
+        System.out.println("encrypted_mail_username: " + encrypted_mail_username);
+        System.out.println("encrypted_mail_password: " + encrypted_mail_password);
     }
 
     public String jasyptEncryptor(String text) {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setAlgorithm("PBEWithHMACSHA512AndAES_256");
-        encryptor.setPassword(value_pass);
+        encryptor.setPassword(this.value_pass);
         encryptor.setIvGenerator(new RandomIvGenerator());
         return encryptor.encrypt(text);
     }

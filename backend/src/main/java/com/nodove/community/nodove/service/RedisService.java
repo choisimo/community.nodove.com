@@ -7,19 +7,21 @@ import com.nodove.community.nodove.domain.users.UserCaching;
 import com.nodove.community.nodove.dto.security.Redis_Refresh_Token;
 import com.nodove.community.nodove.dto.user.UserBlockDto;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.time.Duration;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
-public class RedisService {
+@RequiredArgsConstructor
+public class RedisService implements RedisServiceManager {
 
-    RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final RedisTemplate<String, String> redisTemplate;
+    private final ObjectMapper objectMapper;
 
 
     /* Blocking User */
@@ -39,6 +41,7 @@ public class RedisService {
     }
 
     @Transactional
+    @Override
     public void setBlockCaching(UserBlockDto userBlockDto) {
         String redisKey = generateRedisBlockedKey(userBlockDto.getUser());
 
@@ -55,6 +58,7 @@ public class RedisService {
     }
 
     @Transactional
+    @Override
     public UserBlockDto getBlockCaching(String userId) {
         String redisKey = generateRedisBlockedKey(userId);
 
@@ -71,6 +75,8 @@ public class RedisService {
     }
 
 
+    @Transactional
+    @Override
     public void deleteBlockCaching(String userId) {
         String redisKey = generateRedisBlockedKey(userId);
 
@@ -78,6 +84,8 @@ public class RedisService {
         redisTemplate.delete(redisKey);
     }
 
+    @Transactional
+    @Override
     public boolean isBlocked(String userId) {
         String redisKey = generateRedisBlockedKey(userId);
 
@@ -86,52 +94,70 @@ public class RedisService {
     }
 
     // Save Refresh Token
+    @Transactional
+    @Override
     public void saveRefreshToken(Redis_Refresh_Token redisRefreshToken, String refreshToken) {
         String key = generateRedisRefreshTokenKey(redisRefreshToken);
         redisTemplate.opsForValue().set(key, refreshToken, Duration.ofMillis(Token.REFRESH_TOKEN_HEADER.getREFRESH_TOKEN_EXPIRATION()));
     }
 
     // Get Refresh Token
+    @Transactional
+    @Override
     public String getRefreshToken(Redis_Refresh_Token redisRefreshToken) {
         String key = generateRedisRefreshTokenKey(redisRefreshToken);
         return redisTemplate.opsForValue().get(key);
     }
 
     // Delete Refresh Token
+    @Transactional
+    @Override
     public void deleteRefreshToken(Redis_Refresh_Token redisRefreshToken) {
         String key = generateRedisRefreshTokenKey(redisRefreshToken);
         redisTemplate.delete(key);
     }
 
+    @Transactional
+    @Override
     public boolean UserEmailExists(String email) {
         return redisTemplate.hasKey(UserCaching.PREFIX_USER_EMAIL + email);
     }
 
+    @Transactional
+    @Override
     public boolean UserIdExists(String userId) {
         return redisTemplate.hasKey(UserCaching.PREFIX_USER_ID + userId);
     }
 
+    @Transactional
+    @Override
     public boolean UserNickExists(String userNick) {
         return redisTemplate.hasKey(UserCaching.PREFIX_USER_NICK + userNick);
     }
-
+    @Transactional
+    @Override
     public void saveUserNick(String userNick) {
         redisTemplate.opsForValue().set(UserCaching.PREFIX_USER_NICK + userNick, userNick, Duration.ofDays(1));
     }
-
+    @Transactional
+    @Override
     public void saveUserEmail(String email) {
         redisTemplate.opsForValue().set(UserCaching.PREFIX_USER_EMAIL + email, email, Duration.ofDays(1));
     }
-
+    @Transactional
+    @Override
     public void saveUserId(String userId) {
         redisTemplate.opsForValue().set(UserCaching.PREFIX_USER_ID + userId, userId, Duration.ofDays(1));
     }
-
+    @Transactional
+    @Override
     public String getEmailCode(String email) {
         return redisTemplate.opsForValue().get(UserCaching.PREFIX_USER_EMAIL_CODE + email);
     }
-
+    @Transactional
+    @Override
     public void saveEmailCode(String email, String code) {
+        log.info("saveEmailCode: email={}, code={}", email, code);
         redisTemplate.opsForValue().set(UserCaching.PREFIX_USER_EMAIL_CODE + email, code, Duration.ofMinutes(30));
     }
 

@@ -29,7 +29,7 @@ public class User {
     private String userId;
 
     @Email
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -41,9 +41,11 @@ public class User {
     @Column(name = "user_nick", nullable = false)
     private String userNick;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
     private UserRole userRole;
 
+    @Builder.Default
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
 

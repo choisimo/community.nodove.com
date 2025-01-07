@@ -1,13 +1,13 @@
 package com.nodove.community.nodove.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nodove.community.nodove.configuration.security.JWT.JwtUtility;
+import com.nodove.community.nodove.configuration.security.JWT.JwtUtilityManager;
 import com.nodove.community.nodove.configuration.security.constructor.PrincipalDetails;
 import com.nodove.community.nodove.dto.response.ApiResponseDto;
 import com.nodove.community.nodove.dto.security.Redis_Refresh_Token;
 import com.nodove.community.nodove.dto.security.TokenDto;
 import com.nodove.community.nodove.dto.user.UserLoginRequest;
-import com.nodove.community.nodove.service.RedisService;
+import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,12 +28,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtUtility jwtUtility;
+    private final JwtUtilityManager jwtUtility;
     private final ObjectMapper objectMapper;
-    private final RedisService redisService;
+    private final RedisServiceManager redisService;
     private final UserService userService;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager, JwtUtility jwtUtility, ObjectMapper objectMapper, RedisService redisService, UserService userService) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager, JwtUtilityManager jwtUtility, ObjectMapper objectMapper, RedisServiceManager redisService, UserService userService) {
         super.setFilterProcessesUrl("/auth/login");
         this.authenticationManager = authenticationManager;
         this.jwtUtility = jwtUtility;

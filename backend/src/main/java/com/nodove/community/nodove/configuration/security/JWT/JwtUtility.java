@@ -10,9 +10,8 @@ import com.nodove.community.nodove.dto.response.ApiResponseDto;
 import com.nodove.community.nodove.dto.security.TokenDto;
 import com.nodove.community.nodove.dto.user.UserBlockDto;
 import com.nodove.community.nodove.repository.users.UserRepository;
-import com.nodove.community.nodove.service.RedisService;
+import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserBlockService;
-import com.nodove.community.nodove.service.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
@@ -34,17 +33,18 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class JwtUtility {
+public class JwtUtility implements JwtUtilityManager {
 
     private final Key accessKey;
     private final Key refreshKey;
-    private final RedisService redisService;
+    private final RedisServiceManager redisService;
     private final UserBlockService userBlockService;
     private final UserRepository userRepository;
 
+
     public JwtUtility(
             @Value("${jwt.secret-key.access}") String accessKey,
-            @Value("${jwt.secret-key.refresh}") String refreshKey, RedisService redisService, UserBlockService userBlockService, UserRepository userRepository
+            @Value("${jwt.secret-key.refresh}") String refreshKey, RedisServiceManager redisService, UserBlockService userBlockService, UserRepository userRepository
     ) {
         this.accessKey = Keys.hmacShaKeyFor(accessKey.getBytes());
         this.refreshKey = Keys.hmacShaKeyFor(refreshKey.getBytes());
@@ -53,6 +53,7 @@ public class JwtUtility {
         this.userRepository = userRepository;
     }
 
+    @Override
     public String generateReissuedAccessToken(String userId) {
         User user = this.userRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         List<UserRole> role = Collections.singletonList(user.getUserRole());
@@ -93,6 +94,7 @@ public class JwtUtility {
                 .compact();
     }
 
+    @Override
     public TokenDto generateToken(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         return new TokenDto(
@@ -102,6 +104,7 @@ public class JwtUtility {
     }
 
 
+    @Override
     public UsernamePasswordAuthenticationToken getAuthentication(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
@@ -135,6 +138,7 @@ public class JwtUtility {
     }
 
     // type 0: access token, type 1: refresh token
+    @Override
     public boolean isTokenExpired(String token, int type) {
         try {
             Claims claims = Jwts.parserBuilder()
@@ -162,6 +166,7 @@ public class JwtUtility {
         }
     }
 
+    @Override
     public String getRefreshToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
@@ -177,6 +182,7 @@ public class JwtUtility {
 
     // parsing token
     // type 0: access token, type 1: refresh token
+    @Override
     public Map<String, Object> parseToken(String token, int type)
     {
         Key key = (type == 0) ? this.accessKey : this.refreshKey;
@@ -199,6 +205,7 @@ public class JwtUtility {
     }
 
     // token 전달 시, response에 token을 담아서 전달.
+    @Override
     public void loginResponse(HttpServletResponse response, TokenDto tokenDto, String deviceId) throws IOException {
         response.reset(); // response 초기화
         Cookie newCookie = new Cookie("refreshToken", tokenDto.getRefreshToken());

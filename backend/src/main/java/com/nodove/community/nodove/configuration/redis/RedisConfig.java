@@ -16,25 +16,28 @@ public class RedisConfig {
     @Value("${spring.data.redis.host}")
     private String host;
 
-    @Value("${spring.data.redis.port}")
+    @Value("#{new Integer('${spring.data.redis.port}')}")
     private int port;
+
+    @Value("${spring.data.redis.password}")
+    private String password;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(this.host, this.port);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(this.host);
         redisStandaloneConfiguration.setPort(this.port);
+        redisStandaloneConfiguration.setPassword(this.password);
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     @Bean
     public RedisTemplate<?, ?> redisTemplate() {
         RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
-        redisTemplate.setKeySerializer(new StringRedisSerializer()); // 키를 String으로 직렬화
-        redisTemplate.setValueSerializer(new GenericToStringSerializer<>(Object.class)); // 값 직렬화 방식 설정
+        redisTemplate.setKeySerializer(new StringRedisSerializer());  // Serialize keys as strings
+        redisTemplate.setValueSerializer(new StringRedisSerializer());  // Serialize values as strings
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
+
     }
 }

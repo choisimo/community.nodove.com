@@ -1,13 +1,10 @@
 package com.nodove.community.nodove.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.nodove.community.nodove.configuration.security.JWT.JwtUtility;
-import com.nodove.community.nodove.configuration.security.constructor.PrincipalDetails;
-import com.nodove.community.nodove.configuration.security.constructor.PrincipalDetailsService;
+import com.nodove.community.nodove.configuration.security.JWT.JwtUtilityManager;
 import com.nodove.community.nodove.filter.AuthenticationFilter;
 import com.nodove.community.nodove.filter.AuthorizationFilter;
-import com.nodove.community.nodove.service.RedisService;
+import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +30,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final PrincipalDetailsService principalDetailsService;
-    private JwtUtility jwtUtility;
-    private final RedisService redisService;
+    private final JwtUtilityManager jwtUtility;
+    private final RedisServiceManager redisService;
     private final UserService userService;
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final ObjectMapper objectMapper;
 
     private final List<String> permitList = Arrays.asList(
             "/auth/login",
             "/auth/register",
             "/swagger-io.html"
     );
+
 
 
     @Bean
@@ -55,18 +53,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource));
+        http.cors(cors -> cors.configurationSource(this.corsConfigurationSource));
         http.formLogin(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(new AuthorizationFilter(jwtUtility, ObjectMapper(), redisService, userService), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAt(new AuthenticationFilter(authenticationManager(), jwtUtility, ObjectMapper(), redisService, userService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthorizationFilter(this.jwtUtility, this.objectMapper, this.redisService, this.userService), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(new AuthenticationFilter(authenticationManager(), this.jwtUtility, this.objectMapper, this.redisService, this.userService), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeHttpRequests((authorize) -> {
             authorize.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
             authorize.requestMatchers("/auth/login", "/auth/register", "/swagger-io.html").permitAll();  // 인증 없이 접근 가능
-            authorize.requestMatchers(permitList.toArray(new String[0])).permitAll();
+            authorize.requestMatchers(this.permitList.toArray(new String[0])).permitAll();
             authorize.requestMatchers("/api/private").hasAnyAuthority("ADMIN", "ROLE_ADMIN");
             authorize.requestMatchers("/api/protected").hasAnyAuthority("USER", "ROLE_USER", "ADMIN", "ROLE_ADMIN");
             authorize.requestMatchers("/api/public").permitAll();
@@ -75,11 +73,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-    @Bean
-    public ObjectMapper ObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return objectMapper;
-    }
 }
