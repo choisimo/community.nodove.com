@@ -1,0 +1,12 @@
+package com.nodove.community.nodove.service;
+
+import jakarta.transaction.Transactional;
+
+public interface SmtpServiceManager {
+    @Transactional
+    void sendJoinMail(String email);
+    @Transactional
+    boolean checkJoinEmailCode(String email, String code);
+
+    void MailSender(String email, String title, String content);
+}
