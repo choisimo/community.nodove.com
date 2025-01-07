@@ -19,6 +19,8 @@ class SmtpServiceTest {
     private RedisServiceManager redisService;
     @Autowired
     private JavaMailSender mailSender;
+    @Autowired
+    private EncryptionUtils encryptionUtils;
 
     @Test
     void sendJoinMail() {
@@ -31,9 +33,9 @@ class SmtpServiceTest {
                     + "아래의 인증 코드를 입력하여 회원 가입을 완료해주세요.\n"
                     + "인증 코드 : " + rand + "\n" +
                     "또는 아래의 링크를 클릭하여 인증을 완료해주세요.\n"
-                    + "링크 : https://auth.nodove.com/join/email/check?email=" + email + "&code=" + EncryptionUtils.encrypt(rand) + "\n";
+                    + "링크 : https://auth.nodove.com/join/email/check?email=" + email + "&code=" + encryptionUtils.encrypt(rand) + "\n";
 
-            this.redisService.saveEmailCode(UserCaching.PREFIX_USER_EMAIL + email, EncryptionUtils.encrypt(rand));
+            this.redisService.saveEmailCode(UserCaching.PREFIX_USER_EMAIL + email, encryptionUtils.encrypt(rand));
             this.mailSender(email, title, content);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.nodove.community.nodove.service;
 
 import com.nodove.community.nodove.configuration.security.JWT.JwtUtility;
+import com.nodove.community.nodove.configuration.security.JWT.JwtUtilityManager;
 import com.nodove.community.nodove.configuration.security.constructor.PrincipalDetails;
 import com.nodove.community.nodove.domain.security.Token;
 import com.nodove.community.nodove.domain.users.User;
@@ -34,8 +35,9 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserLoginHistoryRepository userLoginHistoryRepository;
-    private final RedisService redisService;
-    private final JwtUtility jwtUtility;
+    private final RedisServiceManager redisService;
+    private final JwtUtilityManager jwtUtility;
+    private final SmtpServiceManager smtpService;
 
     private boolean isEmailExist(String email) {
         if (redisService.UserEmailExists(email)) {
@@ -137,6 +139,8 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+        smtpService.sendJoinMail(userRegisterDto.getEmail());
+
         return ResponseEntity.ok().body(ApiResponseDto.builder()
                 .code("CREATED_USER_EMAIL_SEND")
                 .message("이메일 인증을 완료해주세요.")

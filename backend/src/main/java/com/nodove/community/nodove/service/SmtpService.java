@@ -17,6 +17,7 @@ public class SmtpService implements SmtpServiceManager{
 
     private final RedisServiceManager redisService;
     private final JavaMailSender mailSender;
+    private final EncryptionUtils encryptionUtils;
 
     @Override
     public void sendJoinMail(String email) {
@@ -29,7 +30,7 @@ public class SmtpService implements SmtpServiceManager{
                     + "인증 코드 : " + rand + "\n" +
                     "또는 아래의 링크를 클릭하여 인증을 완료해주세요.\n"
                     + "링크 : https://auth.nodove.com/join/email/check?email=" + email + "&code=" + rand + "\n";
-            redisService.saveEmailCode(UserCaching.PREFIX_USER_EMAIL + email, EncryptionUtils.encrypt(rand));
+            redisService.saveEmailCode(UserCaching.PREFIX_USER_EMAIL + email, encryptionUtils.encrypt(rand));
             log.info("Email code saved for email={}", email);
         } catch (Exception e) {
             log.error("Failed to send join mail for email={}", email, e);
@@ -44,7 +45,7 @@ public class SmtpService implements SmtpServiceManager{
             if (savedCode == null) {
                 return false;
             }
-            return EncryptionUtils.decrypt(savedCode).equals(code);
+            return encryptionUtils.decrypt(savedCode).equals(code);
         } catch (Exception e) {
             log.error("Failed to check join email code for email={}", email, e);
             return false;
