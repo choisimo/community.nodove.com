@@ -9,6 +9,9 @@ test/resources/
 test/resources
 *test/resources
 *test/resources*
+/src/test/resources/**
+/src/test/resources/
+/src/test/resources
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,git,java,maven,eclipse,intellij,gradle,netbeans,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,git,java,maven,eclipse,intellij,gradle,netbeans,visualstudiocode
 
