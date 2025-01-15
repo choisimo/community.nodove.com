@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import java.io.IOException;
 import java.util.Map;
 
-public interface JwtUtilityManager {
+public interface JwtUtilityManager{
 
     String generateReissuedAccessToken(String userId);
 

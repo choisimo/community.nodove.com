@@ -1,4 +1,4 @@
-package com.nodove.community.nodove.configuration.objectMapper;
+package com.nodove.community.nodove.configuration.Utility;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

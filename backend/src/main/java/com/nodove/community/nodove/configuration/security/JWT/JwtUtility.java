@@ -12,6 +12,7 @@ import com.nodove.community.nodove.dto.user.UserBlockDto;
 import com.nodove.community.nodove.repository.users.UserRepository;
 import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserBlockService;
+import com.nodove.community.nodove.service.UserBlockServiceManager;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
@@ -33,18 +34,19 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+
 public class JwtUtility implements JwtUtilityManager {
 
     private final Key accessKey;
     private final Key refreshKey;
     private final RedisServiceManager redisService;
-    private final UserBlockService userBlockService;
+    private final UserBlockServiceManager userBlockService;
     private final UserRepository userRepository;
 
 
     public JwtUtility(
             @Value("${jwt.secret-key.access}") String accessKey,
-            @Value("${jwt.secret-key.refresh}") String refreshKey, RedisServiceManager redisService, UserBlockService userBlockService, UserRepository userRepository
+            @Value("${jwt.secret-key.refresh}") String refreshKey, RedisServiceManager redisService, UserBlockServiceManager userBlockService, UserRepository userRepository
     ) {
         this.accessKey = Keys.hmacShaKeyFor(accessKey.getBytes());
         this.refreshKey = Keys.hmacShaKeyFor(refreshKey.getBytes());

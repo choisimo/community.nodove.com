@@ -9,6 +9,7 @@ import com.nodove.community.nodove.dto.security.TokenDto;
 import com.nodove.community.nodove.dto.user.UserLoginRequest;
 import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserService;
+import com.nodove.community.nodove.service.UserServiceManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,9 +32,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtilityManager jwtUtility;
     private final ObjectMapper objectMapper;
     private final RedisServiceManager redisService;
-    private final UserService userService;
+    private final UserServiceManager userService;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager, JwtUtilityManager jwtUtility, ObjectMapper objectMapper, RedisServiceManager redisService, UserService userService) {
+    public AuthenticationFilter(AuthenticationManager authenticationManager, JwtUtilityManager jwtUtility, ObjectMapper objectMapper, RedisServiceManager redisService, UserServiceManager userService) {
         super.setFilterProcessesUrl("/auth/login");
         this.authenticationManager = authenticationManager;
         this.jwtUtility = jwtUtility;
