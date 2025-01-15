@@ -5,7 +5,7 @@ import com.nodove.community.nodove.configuration.security.JWT.JwtUtilityManager;
 import com.nodove.community.nodove.filter.AuthenticationFilter;
 import com.nodove.community.nodove.filter.AuthorizationFilter;
 import com.nodove.community.nodove.service.RedisServiceManager;
-import com.nodove.community.nodove.service.UserService;
+import com.nodove.community.nodove.service.UserServiceManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -32,7 +32,7 @@ public class SecurityConfig {
 
     private final JwtUtilityManager jwtUtility;
     private final RedisServiceManager redisService;
-    private final UserService userService;
+    private final UserServiceManager userService;
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CorsConfigurationSource corsConfigurationSource;
@@ -43,8 +43,6 @@ public class SecurityConfig {
             "/auth/register",
             "/swagger-io.html"
     );
-
-
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {

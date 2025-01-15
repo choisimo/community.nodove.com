@@ -1,12 +1,9 @@
 package com.nodove.community.nodove.service;
 
-import com.nodove.community.nodove.configuration.security.JWT.JwtUtility;
-import com.nodove.community.nodove.configuration.security.constructor.PrincipalDetails;
+import com.nodove.community.nodove.configuration.security.JWT.JwtUtilityManager;
 import com.nodove.community.nodove.domain.security.Token;
 import com.nodove.community.nodove.domain.users.User;
-import com.nodove.community.nodove.domain.users.UserCaching;
 import com.nodove.community.nodove.domain.users.UserLoginHistory;
-import com.nodove.community.nodove.domain.users.UserRole;
 import com.nodove.community.nodove.dto.response.ApiResponseDto;
 import com.nodove.community.nodove.dto.security.Redis_Refresh_Token;
 import com.nodove.community.nodove.dto.security.TokenDto;
@@ -18,24 +15,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
-import org.springframework.data.mongodb.core.aggregation.DateOperators;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.springframework.data.mongodb.core.aggregation.DateOperators.DateToString.dateToString;
-
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserServiceManager{
 
     private final UserRepository userRepository;
     private final UserLoginHistoryRepository userLoginHistoryRepository;
-    private final RedisService redisService;
-    private final JwtUtility jwtUtility;
+    private final RedisServiceManager redisService;
+    private final JwtUtilityManager jwtUtility;
+    private final SmtpServiceManager smtpService;
+    private final PasswordEncoder passwordEncoder;
+
 
     private boolean isEmailExist(String email) {
         if (redisService.UserEmailExists(email)) {
@@ -92,11 +89,13 @@ public class UserService {
 
 
     @Transactional
+    @Override
     public User findByUserId(String userId) {
         return userRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
     }
 
     @Transactional
+    @Override
     public void saveLoginHistory(UserLoginRequest userLoginRequest, HttpServletRequest request) {
         User user = userRepository.findByEmail(userLoginRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
         String ip = request.getRemoteAddr();
@@ -114,6 +113,7 @@ public class UserService {
     }
 
     @Transactional
+    @Override
     public ResponseEntity<?> registerUser(UserRegisterDto userRegisterDto) {
         String userId = String.valueOf(System.currentTimeMillis());
 
@@ -132,11 +132,13 @@ public class UserService {
                 .email(userRegisterDto.getEmail())
                 .userNick(userRegisterDto.getUserNick())
                 .username(userRegisterDto.getUsername() != null ? userRegisterDto.getUsername() : UUID.randomUUID().toString())
-                .password(userRegisterDto.getPassword())
+                .password(passwordEncoder.encode(userRegisterDto.getPassword()))
                 .isActive(false)
                 .build();
 
         userRepository.save(user);
+        smtpService.sendJoinMail(userRegisterDto.getEmail());
+
         return ResponseEntity.ok().body(ApiResponseDto.builder()
                 .code("CREATED_USER_EMAIL_SEND")
                 .message("이메일 인증을 완료해주세요.")
@@ -144,6 +146,7 @@ public class UserService {
                 .build().toString());
     }
 
+    @Override
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request, HttpServletResponse response) {
         try {
 
@@ -185,5 +188,10 @@ public class UserService {
                     .status("error")
                     .build().toString());
         }
+    }
+
+    @Override
+    public boolean updateEmailValidation(String email) {
+        return userRepository.updateEmailValidation(email);
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserBlockService {
+public class UserBlockService implements UserBlockServiceManager{
 
     private final RedisService redisService;
     private final UserBlockRepository userBlockRepository;
@@ -24,6 +24,7 @@ public class UserBlockService {
     }
 
     @Transactional
+    @Override
     public UserBlockDto getBlockCaching(String userId) {
         // 1. Redis 캐싱 확인
         UserBlockDto cachedBlock = redisService.getBlockCaching(userId);

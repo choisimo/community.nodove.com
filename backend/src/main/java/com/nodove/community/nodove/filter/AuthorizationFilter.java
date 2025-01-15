@@ -6,6 +6,7 @@ import com.nodove.community.nodove.domain.security.Token;
 import com.nodove.community.nodove.dto.response.ApiResponseDto;
 import com.nodove.community.nodove.service.RedisServiceManager;
 import com.nodove.community.nodove.service.UserService;
+import com.nodove.community.nodove.service.UserServiceManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,10 +24,10 @@ public class AuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtilityManager jwtUtility;
     private final ObjectMapper objectMapper;
     private final RedisServiceManager redisService;
-    private final UserService userService;
+    private final UserServiceManager userService;
 
 
-    public AuthorizationFilter(JwtUtilityManager jwtUtility, ObjectMapper objectMapper, RedisServiceManager redisService, UserService userService) {
+    public AuthorizationFilter(JwtUtilityManager jwtUtility, ObjectMapper objectMapper, RedisServiceManager redisService, UserServiceManager userService) {
         this.jwtUtility = jwtUtility;
         this.objectMapper = objectMapper;
         this.redisService = redisService;
