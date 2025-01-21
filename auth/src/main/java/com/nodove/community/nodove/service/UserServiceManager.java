@@ -23,4 +23,8 @@ public interface UserServiceManager {
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request, HttpServletResponse response);
 
     boolean updateEmailValidation(String email);
+
+    void resendJoinEmail(String email);
+
+    ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response);
 }

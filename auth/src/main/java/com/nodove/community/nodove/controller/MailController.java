@@ -6,6 +6,7 @@ import com.nodove.community.nodove.service.UserServiceManager;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class MailController {
     private final SmtpServiceManager smtpServiceManager;
     private final UserServiceManager userServiceManager;
 
-    @PostMapping("/join/email/check")
+    @GetMapping("/join/email/check")
     public ResponseEntity<?> checkEmailCodeValidation(HttpServletResponse response,
                                                       @RequestParam("email") String email,
                                                       @RequestParam("code") String encryptedCode) {
@@ -54,6 +55,28 @@ public class MailController {
                         "success",
                         "EMAIL_CODE_VALIDATION_SUCCESS",
                         "EMAIL_CODE_VALIDATION_SUCCESS")
+        );
+    }
+
+    @PostMapping("/join/email/resend")
+    public ResponseEntity<?> resendJoinMail(HttpServletResponse response, @RequestParam("email") String email){
+        if (email == null) {
+            return ResponseEntity.badRequest().body(
+                    responseStatus.error(response,
+                            "error",
+                            "EMAIL_NOT_FOUND",
+                            "EMAIL_NOT_FOUND")
+            );
+        }
+
+
+        smtpServiceManager.sendJoinMail(email);
+
+        return ResponseEntity.ok().body(
+                responseStatus.success(response,
+                        "success",
+                        "EMAIL_RESEND_SUCCESS",
+                        "EMAIL_RESEND_SUCCESS")
         );
     }
 }

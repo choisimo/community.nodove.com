@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,4 +67,11 @@ public class UserController {
     public ResponseEntity<?> refreshAccessToken(HttpServletRequest request, HttpServletResponse response, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         return this.userService.refreshAccessToken(request, response);
     }
+
+
+    @PutMapping("/auth/logout")
+    public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+        return this.userService.logoutUser(request, response);
+    }
+
 }

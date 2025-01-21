@@ -7,6 +7,7 @@ import com.nodove.community.nodove.domain.users.User;
 import com.nodove.community.nodove.domain.users.UserBlock;
 import com.nodove.community.nodove.domain.users.UserRole;
 import com.nodove.community.nodove.dto.response.ApiResponseDto;
+import com.nodove.community.nodove.dto.response.ResponseStatusManager;
 import com.nodove.community.nodove.dto.security.TokenDto;
 import com.nodove.community.nodove.dto.user.UserBlockDto;
 import com.nodove.community.nodove.repository.users.UserRepository;
@@ -42,17 +43,19 @@ public class JwtUtility implements JwtUtilityManager {
     private final RedisServiceManager redisService;
     private final UserBlockServiceManager userBlockService;
     private final UserRepository userRepository;
+    private final ResponseStatusManager responseStatusManager;
 
 
     public JwtUtility(
             @Value("${jwt.secret-key.access}") String accessKey,
-            @Value("${jwt.secret-key.refresh}") String refreshKey, RedisServiceManager redisService, UserBlockServiceManager userBlockService, UserRepository userRepository
+            @Value("${jwt.secret-key.refresh}") String refreshKey, RedisServiceManager redisService, UserBlockServiceManager userBlockService, UserRepository userRepository, ResponseStatusManager responseStatusManager
     ) {
         this.accessKey = Keys.hmacShaKeyFor(accessKey.getBytes());
         this.refreshKey = Keys.hmacShaKeyFor(refreshKey.getBytes());
         this.redisService = redisService;
         this.userBlockService = userBlockService;
         this.userRepository = userRepository;
+        this.responseStatusManager = responseStatusManager;
     }
 
     @Override
@@ -216,11 +219,9 @@ public class JwtUtility implements JwtUtilityManager {
         newCookie.setPath("/");
         response.addCookie(newCookie);
         response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().write(ApiResponseDto.builder()
-                .code("LOGIN_SUCCESS")
-                .status("success")
-                .message("로그인 성공")
-                .build().toString());
+        response.getWriter().write(responseStatusManager.success(
+                response,"TOKEN_REISSUED","토큰이 재발급되었습니다.","success"
+        ));
         response.addHeader(Token.ACCESS_TOKEN_HEADER.getHeaderName(),
                 Token.ACCESS_TOKEN_HEADER.createHeaderPrefix(tokenDto.getAccessToken()));
         response.addHeader(Token.DEVICE_ID_HEADER.getHeaderName(), deviceId);

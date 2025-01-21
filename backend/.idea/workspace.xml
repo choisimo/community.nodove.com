@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8fed07ee-c869-4b8f-b1a1-25b01ba0a022" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/community.nodove.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/generated/com/nodove/community/nodove/domain/users/QUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/generated/com/nodove/community/nodove/domain/users/QUserBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/generated/com/nodove/community/nodove/domain/users/QUserLoginHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/generated/com/nodove/community/nodove/domain/users/QUserStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/Utility/ObjectMapperConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/queryDsl/QueryDslConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/redis/RedisConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/CorsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/EncryptionUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/EncryptionUtilsManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/JWT/JwtUtility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/JWT/JwtUtilityManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/JasyptConfigAES.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/PasswordEncoderConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/constructor/PrincipalDetails.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/security/constructor/PrincipalDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/smtp/smtpConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/configuration/swagger/SwaggerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/constants/JwtValidity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/controller/MailController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/security/Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/users/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/users/UserBlock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/users/UserCaching.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/users/UserLoginHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/users/UserRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/domain/users/UserStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/response/ApiResponseDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/response/ResponseStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/response/ResponseStatusManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/security/Redis_Refresh_Token.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/security/TokenDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/user/UserBlockDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/user/UserLoginRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/dto/user/UserRegisterDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/filter/AuthenticationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/filter/AuthorizationFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/repository/users/UserBlockRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/repository/users/UserLoginHistoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/repository/users/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/repository/users/UserRepositoryCustom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/repository/users/UserRepositoryCustomImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/RedisService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/RedisServiceManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/SmtpService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/SmtpServiceManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/UserBlockService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/UserBlockServiceManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nodove/community/nodove/service/UserServiceManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-database.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-jwt.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-smtp.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application-swagger.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-database.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-jwt.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-smtp.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application-swagger.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.properties" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="community.nodove" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="community.nodove" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="community.nodove" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2recFwKJAIwsEjpF0bRPvs0Tn8Y" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.backend [bootJar].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.backend [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.backend [dependencies].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.backend 빌드.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Application.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/community.nodove.com/backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Gradle.backend [bootJar]">
+    <configuration name="backend [bootJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="bootJar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="backend [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="backend [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="community.nodove.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.nodove.community.nodove.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.backend [bootJar]" />
+        <item itemvalue="Gradle.backend [build]" />
+        <item itemvalue="Gradle.backend [dependencies]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="8fed07ee-c869-4b8f-b1a1-25b01ba0a022" name="변경" comment="" />
+      <created>1736922880270</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736922880270</updated>
+      <workItem from="1736922881438" duration="11723000" />
+      <workItem from="1737022566994" duration="8498000" />
+      <workItem from="1737102940920" duration="2214000" />
+      <workItem from="1737374842475" duration="694000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -7,8 +7,6 @@ public interface SmtpServiceManager {
     @Transactional
     void sendJoinMail(String email);
 
-    ResponseEntity<?> resendJoinMail(String email);
-
     @Transactional
     boolean checkJoinEmailCode(String email, String code);
 

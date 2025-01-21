@@ -5,6 +5,7 @@ import com.nodove.community.nodove.domain.security.Token;
 import com.nodove.community.nodove.domain.users.User;
 import com.nodove.community.nodove.domain.users.UserLoginHistory;
 import com.nodove.community.nodove.dto.response.ApiResponseDto;
+import com.nodove.community.nodove.dto.response.ResponseStatusManager;
 import com.nodove.community.nodove.dto.security.Redis_Refresh_Token;
 import com.nodove.community.nodove.dto.security.TokenDto;
 import com.nodove.community.nodove.dto.user.UserLoginRequest;
@@ -32,7 +33,7 @@ public class UserService implements UserServiceManager{
     private final JwtUtilityManager jwtUtility;
     private final SmtpServiceManager smtpService;
     private final PasswordEncoder passwordEncoder;
-
+    private final ResponseStatusManager responseStatusManager;
 
     private boolean isEmailExist(String email) {
         if (redisService.UserEmailExists(email)) {
@@ -193,5 +194,25 @@ public class UserService implements UserServiceManager{
     @Override
     public boolean updateEmailValidation(String email) {
         return userRepository.updateEmailValidation(email);
+    }
+
+    @Override
+    public void resendJoinEmail(String email) {
+        smtpService.sendJoinMail(email);
+    }
+
+    @Override
+    public ResponseEntity<?> logoutUser(HttpServletRequest request, HttpServletResponse response) {
+/*
+        try {
+            String token = jwtUtility.getRefreshToken(request);
+            String deviceId = request.getHeader(Token.DEVICE_ID_HEADER.getHeaderName());
+            String provider = jwtUtility.parseToken(token, 1).get("provider").toString();
+            redisService.deleteRefreshToken(token, deviceId);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(responseStatusManager.error(response, "error", "LOGOUT_FAILED", "로그아웃에 실패했습니다."));
+        }
+*/
+        return ResponseEntity.ok().body(responseStatusManager.success(response, "success", "LOGOUT_SUCCESS", "로그아웃에 성공했습니다."));
     }
 }
