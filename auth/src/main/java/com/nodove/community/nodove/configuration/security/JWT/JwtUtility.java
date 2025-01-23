@@ -214,7 +214,7 @@ public class JwtUtility implements JwtUtilityManager {
     public void loginResponse(HttpServletResponse response, TokenDto tokenDto, String deviceId) throws IOException {
         response.reset(); // response 초기화
         Cookie newCookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
-        newCookie.setHttpOnly(false); // TODO : Http-only 으로 수정 | secure 설정
+        newCookie.setHttpOnly(true); // TODO : Http-only 으로 수정 | secure 설정
         newCookie.setDomain(null); // TODO : domain 설정  | test 하느라 null 설정함
         newCookie.setPath("/");
         response.addCookie(newCookie);
@@ -225,7 +225,6 @@ public class JwtUtility implements JwtUtilityManager {
         response.addHeader(Token.ACCESS_TOKEN_HEADER.getHeaderName(),
                 Token.ACCESS_TOKEN_HEADER.createHeaderPrefix(tokenDto.getAccessToken()));
         response.addHeader(Token.DEVICE_ID_HEADER.getHeaderName(), deviceId);
-        response.addHeader(Token.REFRESH_TOKEN_HEADER.getHeaderName(), tokenDto.getRefreshToken());
     }
 
 }

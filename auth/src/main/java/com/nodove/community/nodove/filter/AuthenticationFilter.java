@@ -90,6 +90,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .build();
         this.redisService.saveRefreshToken(redis_refresh_token, token.getRefreshToken());
 
+        response.reset();
         jwtUtility.loginResponse(response, token, deviceId);
     }
 }

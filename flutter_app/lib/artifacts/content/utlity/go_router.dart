@@ -5,14 +5,18 @@ import 'package:flutter_chat_client/artifacts/content/user/join_page.dart';
 import 'package:flutter_chat_client/artifacts/content/user/login_page.dart';
 import 'package:flutter_chat_client/artifacts/content/page/post/post_detail_page.dart';
 import 'package:flutter_chat_client/artifacts/content/user/profile_page.dart';
-import 'package:flutter_chat_client/artifacts/content/utlity/status/login_state.dart';
+import 'package:flutter_chat_client/artifacts/content/utlity/state/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class MyAppRouter {
-  static late final GoRouter _router;
+  static GoRouter? _router;
 
   static GoRouter initializeRouter(WidgetRef ref) {
+    if (_router != null) {
+      return _router!;
+    }
+
     final isAuth = ref.watch(authProvider);
 
     _router = GoRouter(
@@ -57,14 +61,16 @@ class MyAppRouter {
       redirect: (context, state) {
         final location = state.matchedLocation;
 
-        if (!isAuth && location != '/user/login' && location != '/user/join') {
+        if ((isAuth.token == false) &&
+            (location != '/user/login') &&
+            (location != '/user/join')) {
           return '/user/login';
         }
         return null;
       },
     );
-    return _router;
+    return _router!;
   }
 
-  static GoRouter getRouter() => _router;
+  static GoRouter getRouter() => _router!;
 }
