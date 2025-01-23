@@ -19,11 +19,13 @@ public class CorsConfig{
     @Primary
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOriginPattern("*");
-        /*corsConfiguration.setAllowedOrigins(List.of(
+/*        corsConfiguration.setAllowedOrigins(List.of(
                 "http://localhost:3000",
-                "http://localhost:8080"
+                "http://localhost:8080",
+                "http://localhost:12324"
         ));*/
+        corsConfiguration.addAllowedOriginPattern("http://localhost:*");
+        corsConfiguration.addAllowedOriginPattern("https://*.nodove.com");
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "PATCH", "DELETE", "UPDATE"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "X-Requested-With", "X-XSRF-TOKEN"));
         corsConfiguration.setAllowCredentials(true);
