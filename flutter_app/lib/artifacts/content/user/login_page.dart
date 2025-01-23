@@ -1,16 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_client/artifacts/content/utlity/status/login_state.dart';
+import 'package:flutter_chat_client/artifacts/content/utlity/state/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final loginState = ref.watch(loginProvider);
-    final loginNotifier = ref.read(loginProvider.notifier);
+    final loginState = ref.watch(authProvider);
+    final loginNotifier = ref.read(authProvider.notifier);
 
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -33,29 +34,28 @@ class LoginPage extends ConsumerWidget {
             const SizedBox(height: 16),
             if (loginState.isLoading)
               const CircularProgressIndicator()
-            else
+            else ...[
               ElevatedButton(
                 onPressed: () async {
                   final email = emailController.text;
                   final password = passwordController.text;
-                  await loginNotifier.userLogin(email, password);
+                  await loginNotifier.login(email, password, ref);
 
-                  if (loginState.errorMessage != null) {
-                    log('Login failed');
-                  } else {
-                    log('Login success');
+                  if (loginState.token != null) {
+                    context.go('/');
                   }
                 },
                 child: Text('로그인'),
               ),
-            if (loginState.errorMessage != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Text(
-                  loginState.errorMessage!,
-                  style: const TextStyle(color: Colors.red),
+              if (loginState.errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(
+                    loginState.errorMessage!,
+                    style: const TextStyle(color: Colors.red),
+                  ),
                 ),
-              ),
+            ],
           ],
         ),
       ),

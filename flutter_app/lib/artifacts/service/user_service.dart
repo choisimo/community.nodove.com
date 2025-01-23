@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_chat_client/artifacts/dto/user.dart';
+import 'package:flutter_chat_client/artifacts/repository/token_repository.dart';
 import 'package:flutter_chat_client/artifacts/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -12,22 +13,49 @@ class UserService implements UserRepo {
 
   // Login Request
   @override
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(String email, String password, WidgetRef ref) async {
     final url = Uri.parse('$baseUrl/auth/login');
+
     final response = await http.post(
       url,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: {'Content-Type': 'application/json'},
       body: jsonEncode(
         {'email': email, 'password': password},
       ),
     );
 
     if (response.statusCode == 200) {
-      final token = jsonDecode(response.body)['accessToken'];
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('accessToken', token);
+      final responseBody = jsonDecode(response.body);
+      final accessToken = responseBody['accessToken'];
+      final refreshToken = responseBody['refreshToken'];
+
+      // Set Token
+      await TokenStorage.saveAccessToken(accessToken);
+      await TokenStorage.saveRefreshToken(refreshToken, ref);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> refreshAccessToken(WidgetRef ref) async {
+    final accessToken = await TokenStorage.getToken();
+    final refreshToken = await TokenStorage.getRefreshToken(ref);
+    final url = Uri.parse('$baseUrl/auth/refresh');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode('refreshToken $refreshToken'),
+    );
+    if (response.statusCode == 200) {
+      final responseBody = jsonDecode(response.body);
+      final newAccessToken = responseBody['accessToken'];
+      await TokenStorage.saveAccessToken(newAccessToken);
       return true;
     } else {
       return false;
