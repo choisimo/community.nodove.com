@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_client/artifacts/content/page/error/error_page.dart';
-import 'package:flutter_chat_client/artifacts/content/page/index.dart';
+import 'package:flutter_chat_client/artifacts/content/page/main/index.dart';
 import 'package:flutter_chat_client/artifacts/content/user/join_page.dart';
 import 'package:flutter_chat_client/artifacts/content/user/login_page.dart';
 import 'package:flutter_chat_client/artifacts/content/page/post/post_detail_page.dart';
