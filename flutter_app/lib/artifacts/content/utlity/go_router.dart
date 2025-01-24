@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_client/artifacts/content/page/error/error_page.dart';
 import 'package:flutter_chat_client/artifacts/content/page/index.dart';

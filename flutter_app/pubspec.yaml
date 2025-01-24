@@ -2,10 +2,8 @@ name: flutter_chat_client
 description: "A new Flutter project."
 publish_to: 'none'
 version: 0.1.0
-
 environment:
-  sdk: ^3.6.0
-
+  sdk: '>=3.0.0'
 dependencies:
   flutter:
     sdk: flutter

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_client/artifacts/content/utlity/status/login_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,15 +34,8 @@ class LoginPage extends ConsumerWidget {
             else
               ElevatedButton(
                 onPressed: () async {
-                  final email = emailController.text;
-                  final password = passwordController.text;
-                  await loginNotifier.userLogin(email, password);
-
-                  if (loginState.errorMessage != null) {
-                    log('Login failed');
-                  } else {
-                    log('Login success');
-                  }
+                  await loginNotifier.userLogin(
+                      emailController.text, passwordController.text);
                 },
                 child: Text('로그인'),
               ),
