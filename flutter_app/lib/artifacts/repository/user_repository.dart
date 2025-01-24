@@ -1,4 +1,3 @@
-import 'package:flutter_chat_client/artifacts/dto/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract class UserRepo {
@@ -7,13 +6,4 @@ abstract class UserRepo {
 
   // Refresh access token
   Future<bool> refreshAccessToken(WidgetRef ref);
-
-  // Get access token from SharedPreferences
-  Future<String?> getAccessToken();
-
-  // Logout
-  Future<void> logout();
-
-  // Get user info
-  Future<User> getUserInfo();
 }

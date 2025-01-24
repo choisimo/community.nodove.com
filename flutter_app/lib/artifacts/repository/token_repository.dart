@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_chat_client/artifacts/repository/secure_storage_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:universal_html/html.dart' as html;
@@ -6,20 +8,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenStorage {
   static Future<void> saveAccessToken(String token) async {
+    log('Saving AccessToken');
     if (kIsWeb) {
       html.window.localStorage['accessToken'] = token;
+      log('AccessToken Saved in LocalStorage');
     } else {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('accessToken', token);
+      log('AccessToken Saved in SharedPreferences');
     }
   }
 
   static Future<void> saveRefreshToken(String token, WidgetRef ref) async {
+    log('Saving RefreshToken');
     if (kIsWeb) {
-      html.window.localStorage['refreshToken'] = token;
+      log('RefreshToken exists in Http-Only Cookie');
     } else {
       final storageManager = ref.read(secureStorageManagerProvider);
       await storageManager.saveToken('refreshToken', token);
+      log('RefreshToken Saved in SecureStorage');
     }
   }
 

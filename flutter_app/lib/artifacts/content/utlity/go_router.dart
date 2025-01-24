@@ -61,7 +61,7 @@ class MyAppRouter {
       redirect: (context, state) {
         final location = state.matchedLocation;
 
-        if ((isAuth.token == false) &&
+        if ((ref.read(authProvider).token == false) &&
             (location != '/user/login') &&
             (location != '/user/join')) {
           return '/user/login';

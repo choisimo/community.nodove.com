@@ -10,6 +10,17 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // authProvider 상태 변화 감지해서 처리하기
+
+    ref.listen(authProvider, (prevoius, next) {
+      if (next.token == true) {
+        log('navigate to index');
+        context.go('/');
+      } else if (next.errorMessage != null) {
+        log('Login failed');
+      }
+    });
+
     final loginState = ref.watch(authProvider);
     final loginNotifier = ref.read(authProvider.notifier);
 
@@ -40,10 +51,6 @@ class LoginPage extends ConsumerWidget {
                   final email = emailController.text;
                   final password = passwordController.text;
                   await loginNotifier.login(email, password, ref);
-
-                  if (loginState.token != null) {
-                    context.go('/');
-                  }
                 },
                 child: Text('로그인'),
               ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_chat_client/artifacts/repository/token_repository.dart';
 import 'package:flutter_chat_client/artifacts/repository/user_repository.dart';
 import 'package:flutter_chat_client/artifacts/service/user_service.dart';
@@ -5,11 +7,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthState {
-  final bool isLoading;
-  final bool? token;
-  final String? errorMessage;
+  final bool isLoading; // if loading is true then show loading screen
+  final bool? token; // if token exists then is LoggedIn
+  final String? errorMessage; // if error occurs then show error message
 
   AuthState({this.isLoading = false, this.token = false, this.errorMessage});
+
+  factory AuthState.initial() {
+    return AuthState(isLoading: false, token: false, errorMessage: null);
+  }
 }
 
 class AuthNotifier extends StateNotifier<AuthState> {
@@ -20,7 +26,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // initialize token
   Future<void> initialize() async {
     final token = await TokenStorage.getToken();
-    state = AuthState(token: token != null ? true : false);
+    state = AuthState(isLoading: false, token: token != null);
   }
 
   // login : request Login to Server and Save Token
@@ -29,10 +35,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       // check if login is successful
       final loginStatus = await _userRepo.login(email, password, ref);
-      state = AuthState(token: loginStatus);
+      if (loginStatus) {
+        state = AuthState(isLoading: false, token: true);
+        log('Login Successful');
+      } else {
+        state = AuthState(
+            isLoading: false, token: false, errorMessage: 'Login failed');
+      }
     } catch (e) {
       // if login failed
-      state = AuthState(errorMessage: 'Login failed');
+      log(e.toString());
+      state = AuthState(isLoading: false, errorMessage: 'Login failed');
     }
   }
 
@@ -47,6 +60,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 // StateNotifierProvider
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (ref) {
+    log('AuthNotifierProvider');
     final userRepo = ref.read(userServiceProvider);
     final notifier = AuthNotifier(userRepo);
     notifier.initialize();

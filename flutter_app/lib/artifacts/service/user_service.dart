@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:flutter_chat_client/artifacts/dto/user.dart';
+import 'dart:developer';
 import 'package:flutter_chat_client/artifacts/repository/token_repository.dart';
 import 'package:flutter_chat_client/artifacts/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService implements UserRepo {
   final String baseUrl;
@@ -25,16 +24,22 @@ class UserService implements UserRepo {
     );
 
     if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
-      final accessToken = responseBody['accessToken'];
-      final refreshToken = responseBody['refreshToken'];
+      log('Login Successful');
 
-      // Set Token
-      await TokenStorage.saveAccessToken(accessToken);
-      await TokenStorage.saveRefreshToken(refreshToken, ref);
+      final accessToken = response.headers['authorization'];
+      if (accessToken != null && accessToken.startsWith('Bearer ')) {
+        log('Access Token: $accessToken');
+        await TokenStorage.saveAccessToken(accessToken.substring(7));
+      }
 
+      final refreshToken = response.headers['refresh-token'];
+      if (refreshToken != null && refreshToken.startsWith('Refresh ')) {
+        log('Refresh Token: $refreshToken');
+        await TokenStorage.saveRefreshToken(refreshToken.substring(8), ref);
+      }
       return true;
     } else {
+      log('Login Failed');
       return false;
     }
   }
@@ -60,27 +65,6 @@ class UserService implements UserRepo {
     } else {
       return false;
     }
-  }
-
-  // Get Token from SharedPreferences
-  @override
-  Future<String?> getAccessToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('accessToken');
-  }
-
-  // Logout
-  @override
-  Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('accessToken');
-  }
-
-  // Get User Info
-  @override
-  Future<User> getUserInfo() {
-    // TODO: implement getUserInfo
-    throw UnimplementedError();
   }
 }
 
