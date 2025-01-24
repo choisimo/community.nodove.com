@@ -212,18 +212,26 @@ public class JwtUtility implements JwtUtilityManager {
     // token 전달 시, response에 token을 담아서 전달.
     @Override
     public void loginResponse(HttpServletResponse response, TokenDto tokenDto, String deviceId) throws IOException {
-        response.reset(); // response 초기화
+        // response 초기화
+        response.reset();
+
+        // cookie-start
         Cookie newCookie = new Cookie("refreshToken", tokenDto.getRefreshToken());
         newCookie.setHttpOnly(true); // TODO : Http-only 으로 수정 | secure 설정
+        newCookie.setSecure(true);
         newCookie.setDomain(null); // TODO : domain 설정  | test 하느라 null 설정함
         newCookie.setPath("/");
         response.addCookie(newCookie);
+        // cookie-end
+
         response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write(responseStatusManager.success(
                 response,"TOKEN_REISSUED","토큰이 재발급되었습니다.","success"
         ));
         response.addHeader(Token.ACCESS_TOKEN_HEADER.getHeaderName(),
                 Token.ACCESS_TOKEN_HEADER.createHeaderPrefix(tokenDto.getAccessToken()));
+        response.addHeader(Token.REFRESH_TOKEN_HEADER.getHeaderName(),
+                Token.REFRESH_TOKEN_HEADER.createHeaderPrefix(tokenDto.getRefreshToken()));
         response.addHeader(Token.DEVICE_ID_HEADER.getHeaderName(), deviceId);
     }
 
