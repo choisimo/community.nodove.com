@@ -49,11 +49,17 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
+        if (userBlock == null) {
+            return true;
+        }
         return !userBlock.checkIsBlocked();
     }
 
     @Override
     public boolean isAccountNonLocked() {
+        if (userBlock == null) {
+            return true;
+        }
         return !userBlock.checkIsBlocked();
     }
 
@@ -64,6 +70,10 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getIsActive() && !userBlock.checkIsBlocked();
+        if (user.getIsActive())
+            if (userBlock == null) {
+                return true;
+            }
+        return !userBlock.checkIsBlocked();
     }
 }
