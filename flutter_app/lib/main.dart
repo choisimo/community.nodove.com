@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_client/artifacts/content/utlity/go_router.dart';
+import 'package:flutter_chat_client/app/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {

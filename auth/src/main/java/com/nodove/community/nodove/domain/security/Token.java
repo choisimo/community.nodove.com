@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum Token {
     ACCESS_TOKEN_HEADER("Authorization", "Bearer "),
-    REFRESH_TOKEN_HEADER("Authorization", "Refresh "),
+    REFRESH_TOKEN_HEADER("Refresh-token", "Refresh "),
     DEVICE_ID_HEADER("Device-Id", "");
 
     private final String headerName;
