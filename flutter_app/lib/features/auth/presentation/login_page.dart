@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_client/features/auth/data/providers/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,71 +9,43 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // authProvider 상태 변화 감지해서 처리하기
-
-    ref.listen(authProvider, (prevoius, next) {
-      if (next.token == true) {
-        log('navigate to index');
-        context.go('/');
-      } else if (next.errorMessage != null) {
-        log('Login failed');
-      }
-    });
-
-    final loginState = ref.watch(authProvider);
-    final loginNotifier = ref.read(authProvider.notifier);
-
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: Text('로그인')),
+      appBar: AppBar(title: const Text('로그인')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
             const SizedBox(height: 16),
-            if (loginState.isLoading)
-              const CircularProgressIndicator()
-            else ...[
-              ElevatedButton(
-                onPressed: () async {
-<<<<<<< HEAD
-                  await loginNotifier.userLogin(
-                      emailController.text, passwordController.text);
-=======
-                  final email = emailController.text;
-                  final password = passwordController.text;
-                  await loginNotifier.login(email, password, ref);
-<<<<<<< HEAD:flutter_app/lib/artifacts/content/user/login_page.dart
-
-                  if (loginState.token != null) {
-                    context.go('/');
-                  }
->>>>>>> 9ce90dd6cb48ce26fdfc9fd7aaf7c7fd9801e09a
-=======
->>>>>>> develop:flutter_app/lib/features/auth/presentation/login_page.dart
-                },
-                child: Text('로그인'),
-              ),
-              if (loginState.errorMessage != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Text(
-                    loginState.errorMessage!,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                ),
-            ],
+            ElevatedButton(
+              onPressed: () {
+                // TODO: 실제 로그인 로직 구현
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('로그인 기능이 준비중입니다!')),
+                );
+                // 임시로 메인 페이지로 이동
+                context.go('/');
+              },
+              child: const Text('로그인'),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                context.go('/user/join');
+              },
+              child: const Text('회원가입'),
+            ),
           ],
         ),
       ),

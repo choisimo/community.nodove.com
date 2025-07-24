@@ -5,6 +5,9 @@ import 'package:flutter_chat_client/features/home/presentation/widgets/index.dar
 import 'package:flutter_chat_client/features/auth/presentation/join_page.dart';
 import 'package:flutter_chat_client/features/auth/presentation/login_page.dart';
 import 'package:flutter_chat_client/features/auth/presentation/profile_page.dart';
+import 'package:flutter_chat_client/features/auth/data/providers/auth_providers.dart';
+import 'package:flutter_chat_client/features/posts/presentation/post_editor_page_simple.dart';
+import 'package:flutter_chat_client/features/posts/presentation/post_detail_page.dart';
 import 'package:flutter_chat_client/shared/presentation/error/error_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -25,7 +28,26 @@ class MyAppRouter {
         GoRoute(
           name: 'index',
           path: '/',
-          builder: (context, state) => IndexPage(),
+          builder: (context, state) => const IndexPage(),
+        ),
+        GoRoute(
+          name: 'post_editor',
+          path: '/post/create',
+          builder: (context, state) => const PostEditorPageSimple(),
+        ),
+        GoRoute(
+          name: 'post_edit',
+          path: '/post/edit/:id',
+          builder: (context, state) {
+            final postId = int.tryParse(state.pathParameters['id'] ?? '');
+            if (postId == null || postId < 1) {
+              return const ErrorPage(
+                errorMessage: 'Invalid post ID',
+                errorState: null,
+              );
+            }
+            return PostEditorPageSimple(postId: postId);
+          },
         ),
         GoRoute(
           name: 'post_detail',
@@ -33,8 +55,10 @@ class MyAppRouter {
           builder: (context, state) {
             final postId = int.tryParse(state.pathParameters['id'] ?? '');
             if (postId == null || postId < 1) {
-              return ErrorPage(
-                  errorMessage: 'Invalid post ID', errorState: state.error);
+              return const ErrorPage(
+                errorMessage: 'Invalid post ID',
+                errorState: null,
+              );
             }
             return PostDetailPage(postId: postId);
           },
@@ -53,17 +77,17 @@ class MyAppRouter {
             name: 'profile',
             path: '/user/profile',
             pageBuilder: (context, state) {
-              return MaterialPage(child: ProfilePage());
-            })
+              return const MaterialPage(child: ProfilePage());
+            }),
       ],
       errorPageBuilder: (context, state) {
         if (state.error != null) {
-          return MaterialPage(
+          return const MaterialPage(
               child: ErrorPage(
-                  errorMessage: 'Page not found', errorState: state.error));
+                  errorMessage: 'Page not found', errorState: null));
         } else {
-          return MaterialPage(
-              child: const ErrorPage(
+          return const MaterialPage(
+              child: ErrorPage(
                   errorMessage: 'Page not found', errorState: null));
         }
       },

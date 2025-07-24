@@ -28,7 +28,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.apc_bday_wisher"
+    namespace "com.example.flutter_chat_client"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
