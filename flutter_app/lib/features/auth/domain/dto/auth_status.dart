@@ -1,32 +1,36 @@
-import 'package:flutter_chat_client/features/auth/data/secure_storage.dart';
+import '../models/user.dart';
 
-class AuthStatus {
-  final bool isLoading;
-  final bool? token;
-  final String? errorMessage;
-  final SecureStorage? _storageManager;
-
-  AuthStatus({
-    this.isLoading = false, 
-    this.token = false, 
-    this.errorMessage,
-    SecureStorage? storageManager,
-  }) : _storageManager = storageManager;
-
-  factory AuthStatus.initial() {
-    return AuthStatus(isLoading: false, token: false, errorMessage: null);
-  }
+sealed class AuthStatus {
+  const AuthStatus();
   
-  AuthStatus copyWith({
-    bool? isLoading,
-    bool? token,
-    String? errorMessage,
-  }) {
-    return AuthStatus(
-      isLoading: isLoading ?? this.isLoading,
-      token: token ?? this.token,
-      errorMessage: errorMessage ?? this.errorMessage,
-      storageManager: _storageManager,
-    );
-  }
+  factory AuthStatus.initial() = AuthInitial;
+  factory AuthStatus.loading() = AuthLoading;
+  factory AuthStatus.authenticated(User user, String token) = AuthAuthenticated;
+  factory AuthStatus.unauthenticated() = AuthUnauthenticated;
+  factory AuthStatus.error(String message) = AuthError;
+}
+
+class AuthInitial extends AuthStatus {
+  const AuthInitial();
+}
+
+class AuthLoading extends AuthStatus {
+  const AuthLoading();
+}
+
+class AuthAuthenticated extends AuthStatus {
+  final User user;
+  final String token;
+  
+  const AuthAuthenticated(this.user, this.token);
+}
+
+class AuthUnauthenticated extends AuthStatus {
+  const AuthUnauthenticated();
+}
+
+class AuthError extends AuthStatus {
+  final String message;
+  
+  const AuthError(this.message);
 }
